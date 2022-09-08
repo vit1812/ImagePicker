@@ -42,7 +42,7 @@ open class ImageGalleryView: UIView {
     
     lazy var collectionViewLayout: UICollectionViewLayout = { [unowned self] in
         let layout = ImageGalleryLayout(configuration: self.configuration)
-//        layout.scrollDirection = configuration.galleryOnly ? .vertical : .horizontal
+        //        layout.scrollDirection = configuration.galleryOnly ? .vertical : .horizontal
         layout.scrollDirection = .vertical
         layout.minimumInteritemSpacing = self.configuration.cellSpacing
         layout.minimumLineSpacing = 2
@@ -141,7 +141,7 @@ open class ImageGalleryView: UIView {
         if configuration.galleryOnly {
             addSubview(collectionView)
         } else {
-//            [collectionView, topSeparator].forEach { addSubview($0) }
+            //            [collectionView, topSeparator].forEach { addSubview($0) }
             [collectionView, topView].forEach { addSubview($0) }
             
             topView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
@@ -170,25 +170,37 @@ open class ImageGalleryView: UIView {
     
     func updateFrames() {
         let totalWidth = UIScreen.main.bounds.width
+        
+        var itemNum: CGFloat = 3
+        
+        switch UIDevice.current.userInterfaceIdiom {
+        case .phone:
+            itemNum = 3
+        case .pad:
+            itemNum = 6
+        default:
+            itemNum = 3
+        }
+        
         frame.size.width = totalWidth
-//        let collectionFrame = frame.height == Dimensions.galleryBarHeight ? 100 + Dimensions.galleryBarHeight : frame.height
+        //        let collectionFrame = frame.height == Dimensions.galleryBarHeight ? 100 + Dimensions.galleryBarHeight : frame.height
         topSeparator.frame = CGRect(x: 0, y: 0, width: totalWidth, height: Dimensions.galleryBarHeight)
         topSeparator.autoresizingMask = [.flexibleLeftMargin, .flexibleRightMargin, .flexibleWidth]
         configuration.indicatorView.frame = CGRect(x: (totalWidth - configuration.indicatorWidth) / 2, y: (topSeparator.frame.height - configuration.indicatorHeight) / 2,
                                                    width: configuration.indicatorWidth, height: configuration.indicatorHeight)
         
-//        collectionView.frame = CGRect(x: 0,
-//                                      y: topSeparator.superview != nil ? topSeparator.frame.height : 0,
-//                                      width: totalWidth,
-//                                      height: collectionFrame - topSeparator.frame.height)
+        //        collectionView.frame = CGRect(x: 0,
+        //                                      y: topSeparator.superview != nil ? topSeparator.frame.height : 0,
+        //                                      width: totalWidth,
+        //                                      height: collectionFrame - topSeparator.frame.height)
         
         if configuration.galleryOnly {
-            let cellSize = collectionView.bounds.width/3 - self.configuration.cellSpacing*2
+            let cellSize = collectionView.bounds.width / itemNum - self.configuration.cellSpacing*2
             collectionSize = CGSize(width: cellSize, height: cellSize)
         } else {
-//            collectionSize = CGSize(width: collectionView.frame.height, height: collectionView.frame.height)
+            //            collectionSize = CGSize(width: collectionView.frame.height, height: collectionView.frame.height)
             
-            let cellSize = totalWidth / 3 - self.configuration.cellSpacing*2
+            let cellSize = totalWidth / itemNum - self.configuration.cellSpacing*2
             collectionSize = CGSize(width: cellSize, height: cellSize)
         }
         
