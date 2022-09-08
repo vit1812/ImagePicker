@@ -42,7 +42,8 @@ open class ImageGalleryView: UIView {
     
     lazy var collectionViewLayout: UICollectionViewLayout = { [unowned self] in
         let layout = ImageGalleryLayout(configuration: self.configuration)
-        layout.scrollDirection = configuration.galleryOnly ? .vertical : .horizontal
+//        layout.scrollDirection = configuration.galleryOnly ? .vertical : .horizontal
+        layout.scrollDirection = .vertical
         layout.minimumInteritemSpacing = self.configuration.cellSpacing
         layout.minimumLineSpacing = 2
         layout.sectionInset = UIEdgeInsets.zero
@@ -57,6 +58,30 @@ open class ImageGalleryView: UIView {
         view.backgroundColor = self.configuration.gallerySeparatorColor
         
         return view
+    }()
+    
+    lazy var topView: UIView = { [unowned self] in
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = self.configuration.gallerySeparatorColor
+        
+        view.addSubview(doneButton)
+        doneButton.translatesAutoresizingMaskIntoConstraints = false
+        doneButton.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        doneButton.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        doneButton.widthAnchor.constraint(equalToConstant: 100).isActive = true
+        doneButton.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        
+        return view
+    }()
+    
+    lazy var doneButton: UIButton = { [unowned self] in
+        let button = UIButton()
+        button.setTitle(self.configuration.doneButtonTitle, for: UIControl.State())
+        button.titleLabel?.font = self.configuration.doneButton
+        button.addTarget(self, action: #selector(doneButtonDidPress(_:)), for: .touchUpInside)
+        
+        return button
     }()
     
     lazy var panGestureRecognizer: UIPanGestureRecognizer = { [unowned self] in
@@ -116,7 +141,18 @@ open class ImageGalleryView: UIView {
         if configuration.galleryOnly {
             addSubview(collectionView)
         } else {
-            [collectionView, topSeparator].forEach { addSubview($0) }
+//            [collectionView, topSeparator].forEach { addSubview($0) }
+            [collectionView, topView].forEach { addSubview($0) }
+            
+            topView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+            topView.topAnchor.constraint(equalTo: topAnchor).isActive = true
+            topView.heightAnchor.constraint(equalToConstant: 50).isActive = true
+            topView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
+            
+            collectionView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+            collectionView.topAnchor.constraint(equalTo: topView.bottomAnchor).isActive = true
+            collectionView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
+            collectionView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
         }
         
         topSeparator.addSubview(configuration.indicatorView)
@@ -135,22 +171,25 @@ open class ImageGalleryView: UIView {
     func updateFrames() {
         let totalWidth = UIScreen.main.bounds.width
         frame.size.width = totalWidth
-        let collectionFrame = frame.height == Dimensions.galleryBarHeight ? 100 + Dimensions.galleryBarHeight : frame.height
+//        let collectionFrame = frame.height == Dimensions.galleryBarHeight ? 100 + Dimensions.galleryBarHeight : frame.height
         topSeparator.frame = CGRect(x: 0, y: 0, width: totalWidth, height: Dimensions.galleryBarHeight)
         topSeparator.autoresizingMask = [.flexibleLeftMargin, .flexibleRightMargin, .flexibleWidth]
         configuration.indicatorView.frame = CGRect(x: (totalWidth - configuration.indicatorWidth) / 2, y: (topSeparator.frame.height - configuration.indicatorHeight) / 2,
                                                    width: configuration.indicatorWidth, height: configuration.indicatorHeight)
         
-        collectionView.frame = CGRect(x: 0,
-                                      y: topSeparator.superview != nil ? topSeparator.frame.height : 0,
-                                      width: totalWidth,
-                                      height: collectionFrame - topSeparator.frame.height)
+//        collectionView.frame = CGRect(x: 0,
+//                                      y: topSeparator.superview != nil ? topSeparator.frame.height : 0,
+//                                      width: totalWidth,
+//                                      height: collectionFrame - topSeparator.frame.height)
         
         if configuration.galleryOnly {
             let cellSize = collectionView.bounds.width/3 - self.configuration.cellSpacing*2
             collectionSize = CGSize(width: cellSize, height: cellSize)
         } else {
-            collectionSize = CGSize(width: collectionView.frame.height, height: collectionView.frame.height)
+//            collectionSize = CGSize(width: collectionView.frame.height, height: collectionView.frame.height)
+            
+            let cellSize = totalWidth / 3 - self.configuration.cellSpacing*2
+            collectionSize = CGSize(width: cellSize, height: cellSize)
         }
         
         noImagesLabel.center = CGPoint(x: bounds.width / 2, y: (bounds.height + Dimensions.galleryBarHeight) / 2)
@@ -170,6 +209,12 @@ open class ImageGalleryView: UIView {
                 self.noImagesLabel.alpha = (height > threshold) ? 1 : (height - Dimensions.galleryBarHeight) / threshold
             }
         })
+    }
+    
+    // MARK: - Action methods
+    
+    @objc func doneButtonDidPress(_ button: UIButton) {
+        
     }
     
     // MARK: - Photos handler
