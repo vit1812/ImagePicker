@@ -3,6 +3,7 @@ import UIKit
 protocol BottomContainerViewDelegate: class {
     
     func pickerButtonDidPress()
+    func uploadButtonDidPress()
     func doneButtonDidPress()
     func cancelButtonDidPress()
     func imageStackViewDidPress()
@@ -117,7 +118,7 @@ open class BottomContainerView: UIView {
     }
     
     @objc func uploadButtonDidPress(_ button: UIButton) {
-        
+        delegate?.uploadButtonDidPress()
     }
     
     @objc func handleTapGestureRecognizer(_ recognizer: UITapGestureRecognizer) {

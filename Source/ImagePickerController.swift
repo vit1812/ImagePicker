@@ -375,6 +375,16 @@ open class ImagePickerController: UIViewController {
             action()
         }
     }
+    
+    private func addGallaryView() {
+        view.addSubview(galleryView)
+        galleryView.translatesAutoresizingMaskIntoConstraints = false
+        galleryView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        galleryView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0).isActive = true
+        galleryView.bottomAnchor.constraint(equalTo: bottomContainer.topAnchor, constant: 0).isActive = true
+        galleryView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0).isActive = true
+    }
+
 }
 
 // MARK: - Action methods
@@ -383,6 +393,10 @@ extension ImagePickerController: BottomContainerViewDelegate {
     
     func pickerButtonDidPress() {
         takePicture()
+    }
+    
+    func uploadButtonDidPress() {
+        addGallaryView()
     }
     
     func doneButtonDidPress() {
