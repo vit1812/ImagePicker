@@ -3,7 +3,7 @@ import UIKit
 protocol BottomContainerViewDelegate: class {
     
     func pickerButtonDidPress()
-    func gallaryButtonDidPress()
+    func galleryButtonDidPress()
     func cameraButtonDidPress()
     func doneButtonDidPress()
     func cancelButtonDidPress()
@@ -46,11 +46,11 @@ open class BottomContainerView: UIView {
         return button
     }()
     
-    open lazy var gallaryButton: UIButton = { [unowned self] in
+    open lazy var galleryButton: UIButton = { [unowned self] in
         let button = UIButton()
-        button.setTitle(self.configuration.gallaryButtonTitle, for: UIControl.State())
-        button.titleLabel?.font = self.configuration.gallaryButton
-        button.addTarget(self, action: #selector(gallaryButtonDidPress(_:)), for: .touchUpInside)
+        button.setTitle(self.configuration.galleryButtonTitle, for: UIControl.State())
+        button.titleLabel?.font = self.configuration.galleryButton
+        button.addTarget(self, action: #selector(galleryButtonDidPress(_:)), for: .touchUpInside)
         
         return button
     }()
@@ -89,7 +89,7 @@ open class BottomContainerView: UIView {
     }
     
     func configure() {
-        [borderPickerButton, pickerButton, doneButton, gallaryButton, stackView, topSeparator].forEach {
+        [borderPickerButton, pickerButton, doneButton, galleryButton, stackView, topSeparator].forEach {
             addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
@@ -118,13 +118,13 @@ open class BottomContainerView: UIView {
         }
     }
     
-    @objc func gallaryButtonDidPress(_ button: UIButton) {
-        if button.currentTitle == configuration.gallaryButtonTitle {
-            delegate?.gallaryButtonDidPress()
+    @objc func galleryButtonDidPress(_ button: UIButton) {
+        if button.currentTitle == configuration.galleryButtonTitle {
+            delegate?.galleryButtonDidPress()
             button.setTitle(configuration.cameraButtonTitle, for: .normal)
         } else {
             delegate?.cameraButtonDidPress()
-            button.setTitle(configuration.gallaryButtonTitle, for: .normal)
+            button.setTitle(configuration.galleryButtonTitle, for: .normal)
         }
     }
     

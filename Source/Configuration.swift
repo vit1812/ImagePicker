@@ -17,7 +17,7 @@ import UIKit
     
     @objc public var numberLabelFont = UIFont.systemFont(ofSize: 19, weight: UIFont.Weight.bold)
     @objc public var doneButton = UIFont.systemFont(ofSize: 19, weight: UIFont.Weight.medium)
-    @objc public var gallaryButton = UIFont.systemFont(ofSize: 19, weight: UIFont.Weight.medium)
+    @objc public var galleryButton = UIFont.systemFont(ofSize: 19, weight: UIFont.Weight.medium)
     @objc public var cameraButton = UIFont.systemFont(ofSize: 19, weight: UIFont.Weight.medium)
     @objc public var flashButton = UIFont.systemFont(ofSize: 12, weight: UIFont.Weight.medium)
     @objc public var noImagesFont = UIFont.systemFont(ofSize: 18, weight: UIFont.Weight.medium)
@@ -28,7 +28,7 @@ import UIKit
     
     @objc public var OKButtonTitle = "OK"
     @objc public var cancelButtonTitle = "Cancel"
-    @objc public var gallaryButtonTitle = "Gallary"
+    @objc public var galleryButtonTitle = "Gallery"
     @objc public var cameraButtonTitle = "Camera"
     @objc public var doneButtonTitle = "Done"
     @objc public var noImagesTitle = "No images available"

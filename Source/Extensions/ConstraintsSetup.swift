@@ -36,7 +36,7 @@ extension BottomContainerView {
                                              multiplier: 1, constant: ImageStackView.Dimensions.imageSize))
         }
         
-        addConstraint(NSLayoutConstraint(item: gallaryButton, attribute: .top,
+        addConstraint(NSLayoutConstraint(item: galleryButton, attribute: .top,
                                          relatedBy: .equal, toItem: self, attribute: .top,
                                          multiplier: 1, constant: 8))
         
@@ -54,7 +54,7 @@ extension BottomContainerView {
                                          relatedBy: .equal, toItem: self, attribute: .right,
                                          multiplier: 1, constant: -(screenSize.width - (ButtonPicker.Dimensions.buttonBorderSize + screenSize.width)/2)/2))
         
-        addConstraint(NSLayoutConstraint(item: gallaryButton, attribute: .centerX,
+        addConstraint(NSLayoutConstraint(item: galleryButton, attribute: .centerX,
                                          relatedBy: .equal, toItem: self, attribute: .right,
                                          multiplier: 1, constant: -(screenSize.width - (ButtonPicker.Dimensions.buttonBorderSize + screenSize.width)/2)/2))
         
@@ -119,6 +119,21 @@ extension ImagePickerController {
                                                   multiplier: 1, constant: 0))
         }
         
+        if #available(iOS 11.0, *) {
+            let heightPadding = UIApplication.shared.keyWindow!.safeAreaInsets.bottom
+            view.addConstraint(NSLayoutConstraint(item: bottomContainer, attribute: .height,
+                                                  relatedBy: .equal, toItem: nil,
+                                                  attribute: .notAnAttribute,
+                                                  multiplier: 1,
+                                                  constant: BottomContainerView.Dimensions.height + heightPadding))
+        } else {
+            view.addConstraint(NSLayoutConstraint(item: bottomContainer, attribute: .height,
+                                                  relatedBy: .equal, toItem: nil,
+                                                  attribute: .notAnAttribute,
+                                                  multiplier: 1,
+                                                  constant: BottomContainerView.Dimensions.height))
+        }
+        
         if configuration.galleryOnly {
             
             for attribute: NSLayoutConstraint.Attribute in [.left, .right] {
@@ -152,6 +167,10 @@ extension ImagePickerController {
                                                       multiplier: 1, constant: 0))
             }
             
+            view.addConstraint(NSLayoutConstraint(item: cameraController.view!, attribute: .bottom,
+                                                  relatedBy: .equal, toItem: bottomContainer, attribute: .top,
+                                                  multiplier: 1, constant: 0))
+            
             for attribute in topViewAttributes {
                 view.addConstraint(NSLayoutConstraint(item: topView, attribute: attribute,
                                                       relatedBy: .equal, toItem: self.view, attribute: attribute,
@@ -173,25 +192,6 @@ extension ImagePickerController {
             view.addConstraint(NSLayoutConstraint(item: topView, attribute: .height,
                                                   relatedBy: .equal, toItem: nil, attribute: .notAnAttribute,
                                                   multiplier: 1, constant: TopView.Dimensions.height))
-            
-            view.addConstraint(NSLayoutConstraint(item: cameraController.view!, attribute: .height,
-                                                  relatedBy: .equal, toItem: view, attribute: .height,
-                                                  multiplier: 1, constant: -BottomContainerView.Dimensions.height))
-        }
-        
-        if #available(iOS 11.0, *) {
-            let heightPadding = UIApplication.shared.keyWindow!.safeAreaInsets.bottom
-            view.addConstraint(NSLayoutConstraint(item: bottomContainer, attribute: .height,
-                                                  relatedBy: .equal, toItem: nil,
-                                                  attribute: .notAnAttribute,
-                                                  multiplier: 1,
-                                                  constant: BottomContainerView.Dimensions.height + heightPadding))
-        } else {
-            view.addConstraint(NSLayoutConstraint(item: bottomContainer, attribute: .height,
-                                                  relatedBy: .equal, toItem: nil,
-                                                  attribute: .notAnAttribute,
-                                                  multiplier: 1,
-                                                  constant: BottomContainerView.Dimensions.height))
         }
     }
 }

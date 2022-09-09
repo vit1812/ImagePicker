@@ -377,7 +377,7 @@ open class ImagePickerController: UIViewController {
         }
     }
     
-    private func addGallaryView() {
+    private func addGalleryView() {
         view.addSubview(galleryView)
         galleryView.translatesAutoresizingMaskIntoConstraints = false
         galleryView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
@@ -386,7 +386,7 @@ open class ImagePickerController: UIViewController {
         galleryView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0).isActive = true
     }
     
-    private func removeGallaryView() {
+    private func removeGalleryView() {
         galleryView.removeFromSuperview()
     }
 
@@ -400,13 +400,13 @@ extension ImagePickerController: BottomContainerViewDelegate {
         takePicture()
     }
     
-    func gallaryButtonDidPress() {
-        addGallaryView()
+    func galleryButtonDidPress() {
+        addGalleryView()
         bottomContainer.pickerButton.isEnabled = false
     }
     
     func cameraButtonDidPress() {
-        removeGallaryView()
+        removeGalleryView()
         bottomContainer.pickerButton.isEnabled = true
     }
     
@@ -483,6 +483,7 @@ extension ImagePickerController: CameraViewDelegate {
     }
     
     func applyOrientationTransforms() {
+        /*
         let rotate = configuration.rotationTransform
         
         UIView.animate(withDuration: 0.25, animations: {
@@ -502,6 +503,7 @@ extension ImagePickerController: CameraViewDelegate {
             
             self.topView.flashButton.transform = rotate.concatenating(translate)
         })
+         */
     }
 }
 
