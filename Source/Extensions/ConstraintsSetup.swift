@@ -200,7 +200,7 @@ extension ImageGalleryViewCell {
     
     func setupConstraints() {
         
-        for attribute: NSLayoutConstraint.Attribute in [.width, .height, .centerX, .centerY] {
+        for attribute: NSLayoutConstraint.Attribute in [.leading, .top, .centerX, .centerY] {
             addConstraint(NSLayoutConstraint(item: imageView, attribute: attribute,
                                              relatedBy: .equal, toItem: self, attribute: attribute,
                                              multiplier: 1, constant: 0))

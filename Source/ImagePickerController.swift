@@ -181,6 +181,12 @@ open class ImagePickerController: UIViewController {
         UIAccessibility.post(notification: UIAccessibility.Notification.screenChanged, argument: bottomContainer)
     }
     
+    open override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        galleryView.collectionViewLayout.invalidateLayout()
+    }
+    
     open func resetAssets() {
         self.stack.resetAssets([])
     }
@@ -474,9 +480,11 @@ extension ImagePickerController: CameraViewDelegate {
     
     // MARK: - Rotation
     
+    /*
     open override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-        return .portrait
+        return [.portrait, .landscape, .landscapeLeft, .landscapeRight, .portraitUpsideDown]
     }
+     */
     
     @objc public func handleRotation(_ note: Notification?) {
         applyOrientationTransforms()

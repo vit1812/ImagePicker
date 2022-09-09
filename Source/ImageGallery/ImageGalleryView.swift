@@ -34,6 +34,7 @@ open class ImageGalleryView: UIView {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.backgroundColor = self.configuration.mainColor
         collectionView.showsHorizontalScrollIndicator = false
+        collectionView.showsVerticalScrollIndicator = false
         collectionView.dataSource = self
         collectionView.delegate = self
         
@@ -176,12 +177,17 @@ open class ImageGalleryView: UIView {
         var itemNum: CGFloat = 3
         
         switch UIDevice.current.userInterfaceIdiom {
-        case .phone:
-            itemNum = 3
         case .pad:
             itemNum = 6
         default:
-            itemNum = 3
+            break
+        }
+        
+        switch UIDevice.current.orientation{
+        case .landscapeLeft, .landscapeRight:
+            itemNum = itemNum * 2
+        default:
+            break
         }
         
         frame.size.width = totalWidth
@@ -274,10 +280,35 @@ extension ImageGalleryView: UICollectionViewDelegateFlowLayout {
     
     public func collectionView(_ collectionView: UICollectionView,
                                layout collectionViewLayout: UICollectionViewLayout,
-                               sizeForItemAt indexPath: IndexPath) -> CGSize {
+                               sizeForItemAt indexPath: IndexPath) -> CGSize
+    {
+        let totalWidth = UIScreen.main.bounds.width
+        
+        var itemNum: CGFloat = 3
+        
+        switch UIDevice.current.userInterfaceIdiom {
+        case .pad:
+            itemNum = 6
+        default:
+            break
+        }
+        
+        switch UIDevice.current.orientation{
+        case .landscapeLeft, .landscapeRight:
+            itemNum = itemNum * 2
+        default:
+            break
+        }
+        
+        let cellSize = totalWidth / itemNum - self.configuration.cellSpacing * 2
+        
+        return CGSize(width: cellSize, height: cellSize)
+        
+        /*
         guard let collectionSize = collectionSize else { return CGSize.zero }
         
         return collectionSize
+         */
     }
 }
 
@@ -296,11 +327,15 @@ extension ImageGalleryView: UICollectionViewDelegate {
             // Animate deselecting photos for any selected visible cells
             guard let visibleCells = collectionView.visibleCells as? [ImageGalleryViewCell] else { return }
             for cell in visibleCells where cell.selectedImageView.image != nil {
+                /*
                 UIView.animate(withDuration: 0.2, animations: {
                     cell.selectedImageView.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
                 }, completion: { _ in
                     cell.selectedImageView.image = nil
                 })
+                */
+                
+                cell.selectedImageView.image = nil
             }
         }
         
@@ -310,18 +345,27 @@ extension ImageGalleryView: UICollectionViewDelegate {
             guard image != nil else { return }
             
             if cell.selectedImageView.image != nil {
+                /*
                 UIView.animate(withDuration: 0.2, animations: {
                     cell.selectedImageView.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
                 }, completion: { _ in
                     cell.selectedImageView.image = nil
                 })
+                */
+                
+                cell.selectedImageView.image = nil
+                
                 self.selectedStack.dropAsset(asset)
             } else if self.imageLimit == 0 || self.imageLimit > self.selectedStack.assets.count {
                 cell.selectedImageView.image = AssetManager.getImage("selectedImageGallery")
+                
+                /*
                 cell.selectedImageView.transform = CGAffineTransform(scaleX: 0, y: 0)
                 UIView.animate(withDuration: 0.2, animations: {
                     cell.selectedImageView.transform = CGAffineTransform.identity
                 })
+                 */
+                
                 self.selectedStack.pushAsset(asset)
             }
         }
