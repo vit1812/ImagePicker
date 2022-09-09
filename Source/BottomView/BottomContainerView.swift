@@ -3,7 +3,8 @@ import UIKit
 protocol BottomContainerViewDelegate: class {
     
     func pickerButtonDidPress()
-    func uploadButtonDidPress()
+    func gallaryButtonDidPress()
+    func cameraButtonDidPress()
     func doneButtonDidPress()
     func cancelButtonDidPress()
     func imageStackViewDidPress()
@@ -45,11 +46,11 @@ open class BottomContainerView: UIView {
         return button
     }()
     
-    open lazy var uploadButton: UIButton = { [unowned self] in
+    open lazy var gallaryButton: UIButton = { [unowned self] in
         let button = UIButton()
-        button.setTitle(self.configuration.uploadButtonTitle, for: UIControl.State())
-        button.titleLabel?.font = self.configuration.uploadButton
-        button.addTarget(self, action: #selector(uploadButtonDidPress(_:)), for: .touchUpInside)
+        button.setTitle(self.configuration.gallaryButtonTitle, for: UIControl.State())
+        button.titleLabel?.font = self.configuration.gallaryButton
+        button.addTarget(self, action: #selector(gallaryButtonDidPress(_:)), for: .touchUpInside)
         
         return button
     }()
@@ -88,7 +89,7 @@ open class BottomContainerView: UIView {
     }
     
     func configure() {
-        [borderPickerButton, pickerButton, doneButton, uploadButton, stackView, topSeparator].forEach {
+        [borderPickerButton, pickerButton, doneButton, gallaryButton, stackView, topSeparator].forEach {
             addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
@@ -117,8 +118,14 @@ open class BottomContainerView: UIView {
         }
     }
     
-    @objc func uploadButtonDidPress(_ button: UIButton) {
-        delegate?.uploadButtonDidPress()
+    @objc func gallaryButtonDidPress(_ button: UIButton) {
+        if button.currentTitle == configuration.gallaryButtonTitle {
+            delegate?.gallaryButtonDidPress()
+            button.setTitle(configuration.cameraButtonTitle, for: .normal)
+        } else {
+            delegate?.cameraButtonDidPress()
+            button.setTitle(configuration.gallaryButtonTitle, for: .normal)
+        }
     }
     
     @objc func handleTapGestureRecognizer(_ recognizer: UITapGestureRecognizer) {

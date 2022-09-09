@@ -385,6 +385,10 @@ open class ImagePickerController: UIViewController {
         galleryView.bottomAnchor.constraint(equalTo: bottomContainer.topAnchor, constant: 0).isActive = true
         galleryView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0).isActive = true
     }
+    
+    private func removeGallaryView() {
+        galleryView.removeFromSuperview()
+    }
 
 }
 
@@ -396,8 +400,14 @@ extension ImagePickerController: BottomContainerViewDelegate {
         takePicture()
     }
     
-    func uploadButtonDidPress() {
+    func gallaryButtonDidPress() {
         addGallaryView()
+        bottomContainer.pickerButton.isEnabled = false
+    }
+    
+    func cameraButtonDidPress() {
+        removeGallaryView()
+        bottomContainer.pickerButton.isEnabled = true
     }
     
     func doneButtonDidPress() {

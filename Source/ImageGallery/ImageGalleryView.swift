@@ -142,15 +142,17 @@ open class ImageGalleryView: UIView {
             addSubview(collectionView)
         } else {
             //            [collectionView, topSeparator].forEach { addSubview($0) }
-            [collectionView, topView].forEach { addSubview($0) }
+            [collectionView].forEach { addSubview($0) }
             
+            /*
             topView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
             topView.topAnchor.constraint(equalTo: topAnchor).isActive = true
             topView.heightAnchor.constraint(equalToConstant: 50).isActive = true
             topView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
+            */
             
             collectionView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-            collectionView.topAnchor.constraint(equalTo: topView.bottomAnchor).isActive = true
+            collectionView.topAnchor.constraint(equalTo: topAnchor).isActive = true
             collectionView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
             collectionView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
         }

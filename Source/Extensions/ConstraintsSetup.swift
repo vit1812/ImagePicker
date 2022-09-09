@@ -36,13 +36,13 @@ extension BottomContainerView {
                                              multiplier: 1, constant: ImageStackView.Dimensions.imageSize))
         }
         
-        addConstraint(NSLayoutConstraint(item: uploadButton, attribute: .top,
+        addConstraint(NSLayoutConstraint(item: gallaryButton, attribute: .top,
                                          relatedBy: .equal, toItem: self, attribute: .top,
-                                         multiplier: 1, constant: 0))
+                                         multiplier: 1, constant: 8))
         
         addConstraint(NSLayoutConstraint(item: doneButton, attribute: .bottom,
                                          relatedBy: .equal, toItem: self, attribute: .bottom,
-                                         multiplier: 1, constant: 0))
+                                         multiplier: 1, constant: -8))
         
         addConstraint(NSLayoutConstraint(item: stackView, attribute: .centerY,
                                          relatedBy: .equal, toItem: self, attribute: .centerY,
@@ -54,7 +54,7 @@ extension BottomContainerView {
                                          relatedBy: .equal, toItem: self, attribute: .right,
                                          multiplier: 1, constant: -(screenSize.width - (ButtonPicker.Dimensions.buttonBorderSize + screenSize.width)/2)/2))
         
-        addConstraint(NSLayoutConstraint(item: uploadButton, attribute: .centerX,
+        addConstraint(NSLayoutConstraint(item: gallaryButton, attribute: .centerX,
                                          relatedBy: .equal, toItem: self, attribute: .right,
                                          multiplier: 1, constant: -(screenSize.width - (ButtonPicker.Dimensions.buttonBorderSize + screenSize.width)/2)/2))
         
