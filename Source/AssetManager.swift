@@ -38,6 +38,8 @@ open class AssetManager {
                     assets.insert(object, at: 0)
                 })
                 
+                assets = assets.sorted(by: >)
+                
                 DispatchQueue.main.async {
                     completion(assets)
                 }
@@ -76,4 +78,12 @@ open class AssetManager {
         }
         return images
     }
+}
+
+extension PHAsset: Comparable {
+    
+    public static func < (lhs: PHAsset, rhs: PHAsset) -> Bool {
+        (lhs.creationDate?.timeIntervalSince1970 ?? 0) < (rhs.creationDate?.timeIntervalSince1970 ?? 0)
+    }
+    
 }
